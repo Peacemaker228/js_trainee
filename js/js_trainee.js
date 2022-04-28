@@ -140,14 +140,11 @@ for (let y = 0; y < enter; y++) {
 }
 }
 
-
-
 if (isUserExist) {
   alert(
     `Количество совпадений: ${existUsers.length} \nДанные пользователей: \n${alertString}`
   );
 }
-
 
 function chekUserData(userData, arr) {
   return arr.some(x=> x.userEmail === userData.userEmail &&
