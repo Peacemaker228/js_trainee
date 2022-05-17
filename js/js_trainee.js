@@ -63,96 +63,102 @@
 //     console.log("not equal");
 // }
 
-const enter = parseInt(prompt("Сколько пользователей вы хотите проверить?", 3));
+//
+//
 
-const usersArray = [
-  {
-    userEmail: "batchaev1999@mail.ru",
-    surname: "Batchaev",
-    username: "Alan",
-  },
-  {
-    userEmail: "alanchik99@gmail.com",
-    surname: "Batchaev",
-    username: "Alan",
-  },
-  {
-    userEmail: "petrov@mail.ru",
-    surname: "Petrov",
-    username: "Petr",
-  },
-  {
-    userEmail: "index@mail.ru",
-    surname: "Semenov",
-    username: "Semen",
-  },
-  {
-    userEmail: "gay@mail.ru",
-    surname: "Ivanov",
-    username: "Gayorgy",
-  },
-  {
-    userEmail: "killer101@mail.ru",
-    surname: "Ismail",
-    username: "Magomedov",
-  },
-  {
-    userEmail: "1",
-    surname: "1",
-    username: "1",
-  },
-  {
-    userEmail: "2",
-    surname: "2",
-    username: "2",
-  },
-];
+// const enter = parseInt(prompt("Сколько пользователей вы хотите проверить?", 3));
 
-//let sum = 0;
-let isUserExist
-let existUsers = [];
-let alertString = '';
-let sum = 0;
+// const usersArray = [
+//   {
+//     userEmail: "batchaev1999@mail.ru",
+//     surname: "Batchaev",
+//     username: "Alan",
+//   },
+//   {
+//     userEmail: "alanchik99@gmail.com",
+//     surname: "Batchaev",
+//     username: "Alan",
+//   },
+//   {
+//     userEmail: "petrov@mail.ru",
+//     surname: "Petrov",
+//     username: "Petr",
+//   },
+//   {
+//     userEmail: "index@mail.ru",
+//     surname: "Semenov",
+//     username: "Semen",
+//   },
+//   {
+//     userEmail: "gay@mail.ru",
+//     surname: "Ivanov",
+//     username: "Gayorgy",
+//   },
+//   {
+//     userEmail: "killer101@mail.ru",
+//     surname: "Ismail",
+//     username: "Magomedov",
+//   },
+//   {
+//     userEmail: "1",
+//     surname: "1",
+//     username: "1",
+//   },
+//   {
+//     userEmail: "2",
+//     surname: "2",
+//     username: "2",
+//   },
+// ];
 
+// //let sum = 0;
+// let isUserExist
+// let existUsers = [];
+// let alertString = '';
+// let sum = 0;
 
-for (let y = 0; y < enter; y++) {
-  alert(`Введите данные пользователя №${y+1} `);
-  const email = prompt("Введите свой email");
-  const userSurname = prompt("Введите свою фамилию");
-  const userName = prompt("Введите свое имя");
-  const user = {
-    userEmail: email,
-    surname: userSurname,
-    username: userName,
-  }
-  isUserExist = chekUserData(user, usersArray);
-  if (isUserExist) {
-    existUsers.push(user);
-    alertString+= "\n" + 'Почта: ' + user.userEmail + "\n";
-    alertString+="Фамилия: " + user.surname + "\n";
-    alertString+="Имя: " + user.username + "\n" ;
-    //sum += 1;
-  }
-  else {
-  alert(
-    "Ошибка, совпадения отсутствуют! Вам необходимо зарегистрироваться!"
-  );
-}
-}
+// for (let y = 0; y < enter; y++) {
+//   alert(`Введите данные пользователя №${y+1} `);
+//   const email = prompt("Введите свой email");
+//   const userSurname = prompt("Введите свою фамилию");
+//   const userName = prompt("Введите свое имя");
+//   const user = {
+//     userEmail: email,
+//     surname: userSurname,
+//     username: userName,
+//   }
+//   isUserExist = chekUserData(user, usersArray);
+//   if (isUserExist) {
+//     existUsers.push(user);
+//     alertString+= "\n" + 'Почта: ' + user.userEmail + "\n";
+//     alertString+="Фамилия: " + user.surname + "\n";
+//     alertString+="Имя: " + user.username + "\n" ;
+//     //sum += 1;
+//   }
+//   else {
+//   alert(
+//     "Ошибка, совпадения отсутствуют! Вам необходимо зарегистрироваться!"
+//   );
+// }
+// }
 
-if (isUserExist) {
-  alert(
-    `Количество совпадений: ${existUsers.length} \nДанные пользователей: \n${alertString}`
-  );
-}
+// if (isUserExist) {
+//   alert(
+//     `Количество совпадений: ${existUsers.length} \nДанные пользователей: \n${alertString}`
+//   );
+// }
 
-function chekUserData(userData, arr) {
-  return arr.some(x=> x.userEmail === userData.userEmail &&
-    x.surname === userData.surname &&
-    x.username === userData.username)
-}
+// function chekUserData(userData, arr) {
+//   return arr.some(x=> x.userEmail === userData.userEmail &&
+//     x.surname === userData.surname &&
+//     x.username === userData.username)
+// }
 
-console.log(alertString);
+// console.log(alertString);
+
+//
+//
+
 // function chekUserData(userData, arr) {
 // let flag = false;
 // // for (let y = 0; y <= enter; y++ ) {
@@ -174,3 +180,42 @@ console.log(alertString);
 //   alert("Ты кто такой, я тебя  не знаю, пашол ты");
 // }
 // }
+
+// let a = 1;
+// let b = 3;
+// let c = -4;
+
+function discriminant(a, b, c) {
+  if (a === 0) {
+    return console.log("Ошибка значение а не может равняться нулю");
+  }
+
+  const dis = b * b - 4 * a * c;
+  console.log(dis);
+
+  const x = -b / (2 * a);
+  const x1 = (-b + Math.sqrt(dis)) / (2 * a);
+  const x2 = (-b - Math.sqrt(dis)) / (2 * a);
+
+  if (dis < 0) {
+    console.log("Дискриминант меньше нуля, корней нет");
+  } else if (dis === 0) {
+    console.log(`Дискриминант равен нулю, имеется один корень: x = ${x}`);
+  } else if (dis > 0) {
+    console.log(
+      `Дискриминант больше нуля, имеются два корня: x1 = ${x1}, x2 = ${x2}`
+    );
+  } else {
+    console.log("Ошибка! Введены некорректные данные!");
+  }
+}
+
+discriminant(1, -5, 9);
+
+function numbers(string) {
+  return string
+    .split(" ")
+    .sort((a, b) => b - a)
+    .join(" ");
+}
+console.log(numbers("5 6 7 1 10 15 98 101 -2 -100 -15 0 2"));
