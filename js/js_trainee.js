@@ -1762,108 +1762,138 @@
 //   console.log(res)
 // );
 
-async function increaseSalary() {
-  let success = 0;
-  try {
-    const res = await api.getEmployees();
-    const arithMean =
-      res.reduce((acc, curr) => (acc += curr.salary), 0) / res.length;
-    res.forEach(async (el) => {
-      if (el.salary < arithMean) {
-        const empSalary = await api.setEmployeeSalary(el.id, el.salary * 1.2);
-        await api.notifyEmployee(
-          empSalary.id,
-          `Hello, ${empSalary.name}! Congratulations, your new salary is ${empSalary.salary} `
-        );
-        success += 1;
-      } else if (el.salary > arithMean) {
-        const empSalary = await api.setEmployeeSalary(el.id, el.salary * 1.1);
-        await api.notifyEmployee(
-          empSalary.id,
-          `Hello, ${empSalary.name}! Congratulations, your new salary is ${empSalary.salary} `
-        );
-        success += 1;
-      }
-    });
-    const newRes = await api.getEmployees();
-    await api.sendBudgetToAccounting(
-      newRes.reduce((acc, curr) => (acc += curr.salary), 0)
-    );
-    return success;
-  } catch (err) {
-    api.notifyAdmin(err);
-    console.log(err);
-    return false;
-  }
-}
+// async function increaseSalary() {
+//   let success = 0;
+//   try {
+//     const res = await api.getEmployees();
+//     const arithMean =
+//       res.reduce((acc, curr) => (acc += curr.salary), 0) / res.length;
+//     res.forEach(async (el) => {
+//       if (el.salary < arithMean) {
+//         const empSalary = await api.setEmployeeSalary(el.id, el.salary * 1.2);
+//         await api.notifyEmployee(
+//           empSalary.id,
+//           `Hello, ${empSalary.name}! Congratulations, your new salary is ${empSalary.salary} `
+//         );
+//         success += 1;
+//       } else if (el.salary > arithMean) {
+//         const empSalary = await api.setEmployeeSalary(el.id, el.salary * 1.1);
+//         await api.notifyEmployee(
+//           empSalary.id,
+//           `Hello, ${empSalary.name}! Congratulations, your new salary is ${empSalary.salary} `
+//         );
+//         success += 1;
+//       }
+//     });
+//     const newRes = await api.getEmployees();
+//     await api.sendBudgetToAccounting(
+//       newRes.reduce((acc, curr) => (acc += curr.salary), 0)
+//     );
+//     return success;
+//   } catch (err) {
+//     api.notifyAdmin(err);
+//     console.log(err);
+//     return false;
+//   }
+// }
 
-const api = {
-  _employees: [
-    { id: 1, name: "Alex", salary: 120000 },
-    { id: 2, name: "Fred", salary: 110000 },
-    { id: 3, name: "Bob", salary: 80000 },
-  ],
+// const api = {
+//   _employees: [
+//     { id: 1, name: "Alex", salary: 120000 },
+//     { id: 2, name: "Fred", salary: 110000 },
+//     { id: 3, name: "Bob", salary: 80000 },
+//   ],
 
-  getEmployees() {
-    return new Promise((resolve) => {
-      resolve(this._employees.slice());
-    });
-  },
+//   getEmployees() {
+//     return new Promise((resolve) => {
+//       resolve(this._employees.slice());
+//     });
+//   },
 
-  setEmployeeSalary(employeeId, newSalary) {
-    return new Promise((resolve) => {
-      const updatedEmployees = this._employees.map((employee) =>
-        employee.id !== employeeId
-          ? employee
-          : {
-              ...employee,
-              salary: newSalary,
-            }
-      );
-      this._employees = updatedEmployees;
-      resolve(this._employees.find(({ id }) => id === employeeId));
-    });
-  },
+//   setEmployeeSalary(employeeId, newSalary) {
+//     return new Promise((resolve) => {
+//       const updatedEmployees = this._employees.map((employee) =>
+//         employee.id !== employeeId
+//           ? employee
+//           : {
+//               ...employee,
+//               salary: newSalary,
+//             }
+//       );
+//       this._employees = updatedEmployees;
+//       resolve(this._employees.find(({ id }) => id === employeeId));
+//     });
+//   },
 
-  notifyEmployee(employeeId, text) {
-    return new Promise((resolve) => {
-      resolve(true);
-    });
-  },
+//   notifyEmployee(employeeId, text) {
+//     return new Promise((resolve) => {
+//       resolve(true);
+//     });
+//   },
 
-  notifyAdmin(error) {
-    return new Promise((resolve) => {
-      resolve();
-    });
-  },
+//   notifyAdmin(error) {
+//     return new Promise((resolve) => {
+//       resolve();
+//     });
+//   },
 
-  setEmployees(newEmployees) {
-    return new Promise((resolve) => {
-      this._employees = newEmployees;
-      resolve();
-    });
-  },
+//   setEmployees(newEmployees) {
+//     return new Promise((resolve) => {
+//       this._employees = newEmployees;
+//       resolve();
+//     });
+//   },
 
-  sendBudgetToAccounting(newBudget) {
-    return new Promise((resolve) => {
-      resolve();
-    });
-  },
-};
+//   sendBudgetToAccounting(newBudget) {
+//     return new Promise((resolve) => {
+//       resolve();
+//     });
+//   },
+// };
 
-// increaseSalary().then((e) => console.log(e));
+// // increaseSalary().then((e) => console.log(e));
 
-console.clear();
+// console.clear();
+//////////
+// async function promisesInSeries(asyncFns) {
+//   for (let i = 0; i < asyncFns.length; i += 1) {
+//     await asyncFns[i]();
+//   }
+// }
 
-async function promisesInSeries(asyncFns) {
-  try {
-    asyncFns.forEach(async (prom) => {
-      return await prom();
-    });
-  } catch (e) {
-    console.log(e);
-  }
-}
+// const promisesInSeries = (tasks) => {
+//   return tasks.reduce((prev, task) => {
+//     return prev.then(task).catch((err) => {
+//       console.warn('err', err.message);
+//     });
+//   }, Promise.resolve());
+// };
+
+const myArray = [1, 2, 3, 4, 5, 6];
+
+const sleep = (ms) =>
+  new Promise((res) => {
+    setTimeout(res, ms);
+  });
+
+const myPromise = (num) =>
+  sleep(500).then(() => {
+    console.log('done: ' + num);
+  });
+
+myArray.reduce((p, x) => p.then((_) => myPromise(x)), Promise.resolve());
+
+// function promisesInSeries(ajaxArray) {
+//   let arr = [];
+//   async function run() {
+//     for (let p of ajaxArray) {
+//       let val = await p();
+//       arr.push(val);
+//     }
+//     return arr;
+//   }
+//   return run();
+// }
 
 const firstPromise = () => {
   new Promise((resolve) => setTimeout(() => resolve(300), 3000));
@@ -1876,6 +1906,140 @@ const thirdPromise = () => {
   new Promise((resolve) => setTimeout(() => resolve(100), 1000));
 };
 
-promisesInSeries([firstPromise, secondPromise, thirdPromise]).then((res) =>
-  console.log(res)
-);
+// promisesInSeries([firstPromise, secondPromise, thirdPromise]);
+
+// const debounce = (fu, time) => {
+//   let test;
+//   const testTime = (...args) => {
+//     clearTimeout(test);
+//     test = setTimeout(fu.bind(this, ...args), time);
+//   };
+//   return testTime;
+// };
+
+// const testFu = (hallo = "hallo") => {
+//   alert(hallo);
+// };
+
+// const testDEb = debounce(testFu, 2000);
+
+// testDEb("uwu");
+
+// function sleep(delay, fn) {
+//   return new Promise((res) => {
+//     setTimeout(() => res(fn()), delay);
+//   });
+// }
+
+// const first = () => sleep(1000, () => console.log('first'));
+// const second = () => sleep(500, () => console.log('second'));
+// const third = () => sleep(250, () => console.log('third'));
+
+// function asyncCreator() {
+//   let isLoading = false;
+//   const queue = [];
+
+//   const awaited = async (fn, fromRecurse) => {
+//     if (!fromRecurse) {
+//       queue.push(fn);
+//     }
+//     if (isLoading) return;
+
+//     isLoading = true;
+//     await fn();
+//     queue.shift();
+//     isLoading = false;
+//     if (queue.length) {
+//       await awaited(queue[0], true);
+//     }
+//   };
+
+//   return { awaited };
+// }
+
+// const { awaited } = asyncCreator();
+
+// awaited(first);
+// awaited(second);
+// awaited(third);
+
+// const isObj = (obj) => {
+//   return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
+// };
+
+// const genDiff = (obj1, obj2) => {
+//   if (!isObj(obj1) || !isObj(obj2)) return 'Введите корректные данные!';
+
+//   const build = (key) => {
+//     const val1 = obj1[key];
+//     const val2 = obj2[key];
+
+//     if (val1 && val2) {
+//       if (val1 === val2) {
+//         return {
+//           [key]: 'unchanged',
+//         };
+//       } else if (val1 !== val2) {
+//         return {
+//           [key]: 'changed',
+//         };
+//       }
+//     } else if (!val1 && val2) {
+//       return {
+//         [key]: 'added',
+//       };
+//     } else if (val1 && !val2) {
+//       return {
+//         [key]: 'deleted',
+//       };
+//     }
+//   };
+
+//   const keys = Object.assign(
+//     {},
+//     ...Object.keys({ ...obj1, ...obj2 }).map((el) => build(el)),
+//   );
+
+//   return keys;
+// };
+
+// console.log(
+//   genDiff(
+//     { one: 'eon', two: 'two', four: true },
+//     { two: 'own', zero: 4, four: true },
+//   ),
+// );
+
+// const findWhere = (arr, obj) => {
+//   let res = {};
+//   //   for (const key in obj) {
+//   //     res.push(arr.find((el) => el[key] === obj[key]));
+//   //     }
+//   const keys = Object.entries(obj);
+
+//   for (const el of arr) {
+//     for (let i = 0; i < keys.length; i += 1) {
+//       console.log(keys[i][1], el[keys[i][0]], 'log');
+//       if (keys[i][1] === el[keys[i][0]]) {
+//         res[keys[i][0]] = el[keys];
+//       }
+//     }
+//   }
+//   //   console.log(res);
+//   return res;
+// };
+
+// console.log(
+//   findWhere(
+//     [
+//       { title: 'Book of Fooos', author: 'FooBar', year: 1111 },
+//       { title: 'Cymbeline', author: 'Shakespeare', year: 1611 },
+//       { title: 'The Tempest', author: 'Shakespeare', year: 1611 },
+//       { title: 'Book of Foos Barrrs', author: 'FooBar', year: 2222 },
+//       { title: 'Still foooing', author: 'FooBar', year: 3333 },
+//       { title: 'Happy Foo', author: 'FooBar', year: 4444 },
+//     ],
+//     // { author: 'Shakespeare', year: 1611 },
+//     { title: 'Book of Foos Barrrs', year: 4444 },
+//   ),
+// );
