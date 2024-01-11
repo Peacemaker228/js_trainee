@@ -2043,3 +2043,61 @@ const thirdPromise = () => {
 //     { title: 'Book of Foos Barrrs', year: 4444 },
 //   ),
 // );
+
+class EventEmitter<T> {
+  private _foo: Record<string, (v: T) => T> = {}
+  private _listeners: Record<string, ((v: T) => void)[]> = {}
+
+  constructor(private _value: T) {}
+
+  emit(type: string) {
+    if (!(type in this._foo)) {
+      throw new Error(`Error: ${type} not registered`)
+    }
+
+    this._value = this._foo[type](this._value)
+    
+    if (type in this._listeners) {
+      this._listeners[type].forEach(el => {
+        el(this._value)
+      })
+    }
+  }
+
+  register(type: string, fn: (val: T) => T) {
+    if (type in this._foo) {
+      this._foo[type] = fn
+      console.warn('console.warn (callback has changed!!)')
+
+      return
+    }
+
+    this._foo[type] = fn
+    console.log('OK')
+  }
+
+  on(type: string, fn: (val: T) => void) {
+    this._listeners[type] = [...this._listeners[type] || [], fn]
+  }
+
+  get value() {
+    return this._value;
+  }
+}
+
+const emitter = new EventEmitter(1);
+// emitter.emit('Increment'); // Error: Increment not registered
+
+emitter.register('Increment', (val) => val + 1); // OK
+// emitter.register('Increment', (val) => val + 2); // console.warn (callback has changed!!)
+
+emitter.register('Decrement', (val) => val - 1);
+
+emitter.on('Increment', (val) => console.log(`New increment with: ${val}`));
+emitter.on('Decrement', (val) => console.log(`New decrement with: ${val}`));
+emitter.on('Decrement', (val) => console.log(`New decrement2 with: ${val}`));
+
+emitter.emit('Increment'); // Logs: New increment with: 2
+emitter.emit('Decrement'); // Logs: New decrement with: 1, New decrement2 with: 1
+
+console.log(emitter.value) // 1
